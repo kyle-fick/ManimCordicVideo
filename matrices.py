@@ -103,7 +103,6 @@ class CordicMatrices(Scene):
         ptLinec = ptLine.copy()
         ptLine.add_updater(lambda t: ptLine.become(Line(circAxes.coords_to_point(0, 0), pt.get_center())))
 
-
         self.play(Create(pt))
         self.add(ptc)
         self.play(Create(ptLine))
@@ -127,7 +126,7 @@ class CordicMatrices(Scene):
                               [MathTex(r"y'").set_color(YELLOW)]])
         eqTex = MathTex('=')
         rotMat = MobjectMatrix([[MathTex(r'\cos ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE), MathTex(r'- \sin ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE)],
-                                [MathTex(r'\sin ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE), MathTex(r'\cos ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE)]], h_buff=2)
+                                [MathTex(r'\sin ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE), MathTex(r'\cos ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE)]], h_buff=2, element_alignment_corner=ORIGIN)
         optMat = MobjectMatrix([[MathTex(r'x').set_color(ORANGE)],
                                 [MathTex(r'y').set_color(YELLOW)]])
         matrixeq = Group(ptMat, eqTex, rotMat, optMat)
@@ -143,3 +142,19 @@ class CordicMatrices(Scene):
         self.wait(1)
         self.play(Transform(matSur, matSur2), Transform(feqSur, feqSur2))
         self.wait(1)
+
+        self.play(FadeOut(feqs), FadeOut(matSur), FadeOut(omatSur), FadeOut(feqSur), matrixeq.animate.move_to(ORIGIN))
+        self.wait(1)
+
+        cosTex = MathTex(r'\cos ({{\alpha}})').set_color_by_tex(r'\alpha', PURPLE)
+        frotMat = MobjectMatrix([[MathTex(r'1'),                                                       MathTex(r'- \tan ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE)],
+                                 [MathTex(r'\tan ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE), MathTex(r'1')]], h_buff=2, element_alignment_corner=ORIGIN)
+
+        nmatrixeq = matrixeq.copy()
+        nmatrixeq.submobjects[2] = frotMat
+        nmatrixeq.insert(2, cosTex)
+        nmatrixeq.arrange_submobjects()
+        self.play(ReplacementTransform(matrixeq, nmatrixeq))
+        self.wait(1)
+
+        
