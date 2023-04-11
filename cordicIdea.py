@@ -21,6 +21,9 @@ class CordicIdea(Scene):
         self.add(angle_mark)
         self.wait(1)
 
+        def rotateVector(ang):
+            self.play(angle.animate.set_value(angle.get_value() + ang))
+
         self.play(angle.animate.set_value(PI/4))
         self.wait(1)
         self.play(angle.animate.set_value(PI/6))
