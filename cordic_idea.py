@@ -92,4 +92,43 @@ class CordicIdea(MovingCameraScene):
 
         angle_mark.add_updater(mark_lambda)
         self.add(angle_mark)
-        
+        desired_angle = PI/3
+        angle_line = DashedLine(start=rotcirc.get_center(), end=rotcirc.get_center() + RIGHT * np.cos(desired_angle) * rotcirc.get_radius() + UP * np.sin(desired_angle) * rotcirc.get_radius(), color=GREEN)
+        self.play(Create(angle_line))
+        self.wait(1)
+        for i in range(len(rotAngles)):
+            a = 1 if angle.get_value() < desired_angle else -1
+            self.play(rotateVect(rotAngles[i] * a))
+            self.wait(0.2)
+        self.wait(1)
+
+        y_tex = MathTex(r'y = \sin (\theta)', color=YELLOW).next_to(rotcirc, RIGHT).shift(UP * 3)
+        x_tex = MathTex(r'x = \cos (\theta)', color=BLUE).next_to(y_tex, DOWN)
+        y_line = DashedLine(start = vector.get_end(), end = rotcirc.get_center() + RIGHT * np.cos(angle.get_value()) * vector.get_length(), color=YELLOW)
+        x_line = DashedLine(start = vector.get_end(), end = rotcirc.get_center() + UP * np.sin(angle.get_value()) * vector.get_length(), color=BLUE)
+        self.play(Write(y_tex), Create(y_line))
+        self.wait(1)
+        self.play(Write(x_tex), Create(x_line))
+        self.wait(1)
+
+        self.play(FadeOut(x_line), FadeOut(y_line), FadeOut(angle_line))
+        self.wait(1)
+
+        invtan_tex = MathTex(r'\tan^{-1}\left( {{y}} \over{{{x}}}\right) = \theta', color=WHITE).next_to(x_tex, DOWN).set_color_by_tex('y', YELLOW).set_color_by_tex('x', BLUE).scale(.7).shift(DOWN * .5)
+        self.play(Write(invtan_tex))
+        self.wait(1)
+
+        angle.set_value(PI/3)
+        desired_angle = 0
+        theta_tex = MathTex(r'\Sigma \theta = ')
+        atan_angle = DecimalNumber(0, color=GREEN).set_value(desired_angle * 180 / PI)
+        atan_angle_updater = lambda a: a.set_value(60 - angle.get_value() * 180 / PI)
+        atan_angle.add_updater(atan_angle_updater)
+        theta_group = VGroup(theta_tex, atan_angle).arrange_submobjects().next_to(invtan_tex, DOWN)
+        self.play(Write(theta_group))
+        self.wait(1)
+        for i in range(len(rotAngles)):
+            a = 1 if angle.get_value() < desired_angle else -1
+            self.play(rotateVect(rotAngles[i] * a))
+            self.wait(0.2)
+        self.wait(1)
