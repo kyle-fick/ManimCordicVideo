@@ -1,6 +1,6 @@
 from manim import *
 
-class CordicIdea(Scene):
+class CordicIdea(MovingCameraScene):
     def construct(self):
         self.camera.background_color="#213d4c"
 
@@ -63,7 +63,8 @@ class CordicIdea(Scene):
         self.wait(1)
 
         new_angle_mark = Arc(.5, 0, 0)
-        new_angle_mark.add_updater(lambda a, dt: a.become(Arc(.5, angle.get_value(), PI/2 - angle.get_value())))
+        new_angle_updater = lambda a: a.become(Arc(.5, angle.get_value(), PI/2 - angle.get_value()))
+        new_angle_mark.add_updater(new_angle_updater)
 
         vector.add_updater(arrow_updater)
         self.add(new_angle_mark)
@@ -77,4 +78,18 @@ class CordicIdea(Scene):
         self.wait(1)
         self.play(FadeIn(circle_shade2))
         self.wait(1)
+
+        self.play(FadeOut(circle_shade1), FadeOut(circle_shade2))
+        self.wait(1)
+
+        self.play(rotateVect(PI/2))
+        new_angle_mark.remove_updater(new_angle_updater)
+        self.play(FadeOut(new_angle_mark))
+        self.wait(1)
+
+        self.play(self.camera.frame.animate.scale(0.6).move_to(rotcirc.get_center() + RIGHT * 2 + UP * 1.5), run_time=2)
+        self.wait(1)
+
+        angle_mark.add_updater(mark_lambda)
+        self.add(angle_mark)
         
