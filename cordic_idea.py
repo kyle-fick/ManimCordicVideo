@@ -7,7 +7,7 @@ class CordicIdea(MovingCameraScene):
         angle = ValueTracker(0)
 
         rotcirc = Circle(3.5, WHITE)
-        circAxes = Axes([-2, 2], [-2, 2], rotcirc.radius * 2, rotcirc.radius * 2, axis_config={'include_ticks': True}, tips=False).move_to(rotcirc)
+        circAxes = Axes([-2, 2, 0.2], [-2, 2, 0.2], rotcirc.radius * 2, rotcirc.radius * 2, axis_config={'include_ticks': True}, tips=False).move_to(rotcirc)
         circGroup = Group(rotcirc, circAxes)
 
         self.play(Create(rotcirc), Create(circAxes))
