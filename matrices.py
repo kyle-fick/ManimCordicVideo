@@ -156,5 +156,3 @@ class CordicMatrices(Scene):
         nmatrixeq.arrange_submobjects()
         self.play(ReplacementTransform(matrixeq, nmatrixeq))
         self.wait(1)
-
-        

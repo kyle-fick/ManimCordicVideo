@@ -62,3 +62,31 @@ class Intro(MovingCameraScene):
         self.wait(1)
         self.play(TransformMatchingTex(point_coords, r_point_coords))
         self.wait(1)
+
+        n_dot_angle = PI/6
+        n_dot = Dot(radius=0.1, color=RED, z_index=1).move_to(circle_axes.c2p(np.cos(PI/4 + n_dot_angle), 
+                                                                              np.sin(PI/4 + n_dot_angle)))
+        self.play(FadeOut(cos_rect, cos_tex, sin_rect, sin_tex, r_tex))
+        self.play(Create(n_dot))
+        n_dot_line = Line(start=unit_circle.get_center(), end=n_dot.get_center(), color=WHITE)
+        n_angle = Angle(dot_line, n_dot_line, radius=0.75)
+        alpha_tex = MathTex(r'\alpha', color=WHITE).move_to(n_angle).shift(UP * .3 + RIGHT * .2)
+        self.play(Create(n_dot_line), Create(n_angle), Write(alpha_tex), theta_tex.animate.set_opacity(0.25))
+        self.wait(1)
+
+        n_cos_line = DashedLine(start=[0, n_dot.get_center()[1], 0], end=n_dot.get_center(), color=BLUE)
+        n_sin_line = DashedLine(start=[n_dot.get_center()[0], 0, 0], end=n_dot.get_center(), color=YELLOW)
+        self.play(cos_line.animate.become(n_cos_line),
+                  sin_line.animate.become(n_sin_line))
+        self.wait(1)
+
+        n_cos_tex = MathTex(r'\cos', r'(', r'\theta', r'+', r'\alpha', r')', color=WHITE).set_color_by_tex(r'\cos', BLUE).move_to(n_cos_line.get_center()).shift(UP * 0.5 + LEFT * .5).scale(0.75)
+        n_sin_tex = MathTex(r'\sin', r'(', r'\theta', r'+', r'\alpha', r')', color=WHITE).set_color_by_tex(r'\sin', YELLOW).move_to(n_sin_line.get_center()).shift(RIGHT * 1).scale(0.75)
+        n_cos_rect = BackgroundRectangle(n_cos_tex, color=BLACK, fill_opacity=0.5, corner_radius=0.1, buff=0.1)
+        n_sin_rect = BackgroundRectangle(n_sin_tex, color=BLACK, fill_opacity=0.5, corner_radius=0.1, buff=0.1)
+        self.play(Create(n_cos_rect), Create(n_sin_rect), Write(n_cos_tex), Write(n_sin_tex))
+        self.wait(1)
+
+        n_point_coords = MathTex(r'(', r'r', r'\cos', r'(', r'\theta', r'+', r'\alpha', r')', r',', r'r', r'\sin', r'(', r'\theta', r'+', r'\alpha', r')', r')', color=WHITE).set_color_by_tex(r'\cos', BLUE).set_color_by_tex(r'\sin', YELLOW).set_color_by_tex(r'r', ORANGE).next_to(n_dot, UP * 0.75 + RIGHT * 0.1).scale(0.9)
+        self.play(Write(n_point_coords), r_point_coords.animate.set_opacity(0.25))
+        self.wait(1)

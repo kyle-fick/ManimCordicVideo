@@ -120,3 +120,4 @@ class ConvergentSeries(Scene):
         c_sum.remove(c_sum_result)
         self.play(c_sum.animate.arrange_submobjects().shift(UP))
         self.wait(1)
+        
