@@ -5,7 +5,7 @@ class ConvergentSeries(Scene):
     def construct(self):
         self.camera.background_color="#213d4c"
 
-        asumTex = MathTex(r'\sum_{n=0}^{\infty}',  r'45 (\frac{1}{2^n})')
+        asumTex = MathTex(r'\sum_{n=0}^{\infty}',  r'45 \left(\frac{1}{2^n}\right)')
         self.play(Write(asumTex))
         self.wait(1)
 
@@ -106,7 +106,7 @@ class ConvergentSeries(Scene):
         self.play(lg_series.animate.arrange_submobjects())
         self.wait(1)
 
-        asumTex = MathTex(r'\sum_{n=0}^{\infty}',  r'45 (\frac{1}{2^n})')
+        asumTex = MathTex(r'\sum_{n=0}^{\infty}',  r'45 \left(\frac{1}{2^n}\right)')
         eq_sign_5 = MathTex('=', color=WHITE)
         c_sum_result = MathTex(r'\frac{45}{\left( 1-\frac{1}{2} \right) }')
         c_sum_fresult = MathTex(r'90')

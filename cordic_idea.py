@@ -13,8 +13,8 @@ class CordicIdea(MovingCameraScene):
         self.play(Create(rotcirc), Create(circAxes))
         self.wait(1)
 
-        vector = Arrow(start=circAxes.coords_to_point(0, 0), end=circAxes.coords_to_point(1, 0), color=BLUE_B, buff=0)
-        arrow_updater = lambda a: a.become(Arrow(start=circAxes.coords_to_point(0, 0), end=circAxes.coords_to_point(np.cos(angle.get_value()), np.sin(angle.get_value())), color=BLUE_B, buff=0))
+        vector = Arrow(start=circAxes.c2p(0, 0), end=circAxes.c2p(1, 0), color=BLUE_B, buff=0)
+        arrow_updater = lambda a: a.become(Arrow(start=circAxes.c2p(0, 0), end=circAxes.c2p(np.cos(angle.get_value()), np.sin(angle.get_value())), color=BLUE_B, buff=0))
         vector.add_updater(arrow_updater)
         angle_mark = Arc(.5, 0, 0)
         mark_lambda = lambda a: a.become(Arc(.5, 0, angle.get_value()))
@@ -51,7 +51,7 @@ class CordicIdea(MovingCameraScene):
         currScene.remove(angle)
         self.play(currScene.animate.shift(LEFT * 3))
 
-        asumTex = MathTex(r'\sum_{n=0}^{\infty} 45 (\frac{1}{2^n}) = 90\\ = 45 + 22.5 + \cdots').shift(RIGHT * 3.5)
+        asumTex = MathTex(r'\sum_{n=0}^{\infty} 45 \left(\frac{1}{2^n}\right) = 90\\ = 45 + 22.5 + \cdots').shift(RIGHT * 3.5)
         self.play(FadeIn(asumTex))
         self.wait(1)
 
@@ -76,10 +76,20 @@ class CordicIdea(MovingCameraScene):
         circle_shade2 = Arc(rotcirc.radius,  PI/2, PI, fill_color=BLUE_C, fill_opacity=.4)
         self.play(FadeIn(circle_shade1))
         self.wait(1)
+
+        q2_vec = Arrow(start=circAxes.c2p(0, 0), end=circAxes.c2p(np.cos(3*PI/4), np.sin(3*PI/4)), color=RED_B, buff=0)
+        q3_vec = Arrow(start=circAxes.c2p(0, 0), end=circAxes.c2p(np.cos(-3*PI/4), np.sin(-3*PI/4)), color=RED_B, buff=0)
+        self.play(Create(q2_vec))
+        self.play(Create(q3_vec))
+        self.wait(1)
+        self.play(Rotate(q2_vec, -PI/2, about_point=rotcirc.get_center()))
+        self.play(Rotate(q3_vec, PI/2, about_point=rotcirc.get_center()))
+        self.wait(1)
+
         self.play(FadeIn(circle_shade2))
         self.wait(1)
 
-        self.play(FadeOut(circle_shade1), FadeOut(circle_shade2))
+        self.play(FadeOut(circle_shade1), FadeOut(circle_shade2), FadeOut(q2_vec), FadeOut(q3_vec))
         self.wait(1)
 
         self.play(rotateVect(PI/2))

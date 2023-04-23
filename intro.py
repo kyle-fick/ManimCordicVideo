@@ -25,7 +25,6 @@ class Intro(MovingCameraScene):
         self.play(Create(circle_axes))
         self.wait(1)
 
-        self.camera.save_state()
         self.play(self.camera.frame.animate.move_to(RIGHT * 2 + UP * 1.5).scale(0.6))
         self.wait(1)
 
