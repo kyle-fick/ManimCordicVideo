@@ -68,3 +68,10 @@ class ComputerMultiply(MovingCameraScene):
         self.wait(1)
 
         self.play(self.camera.frame.animate.move_to(ORIGIN).scale(2))
+
+        num_label = DecimalNumber(num_val,  num_decimal_places=0).scale(2).shift(UP * 2.5)
+        self.play(set_byte(get_byte(b1)), ReplacementTransform(num_label2, num_label))
+        self.wait(1)
+        num_label2 = DecimalNumber(bin_to_dec(b2),  num_decimal_places=0).move_to(num_label).scale(2)
+        self.play(set_byte(get_byte(b2)), ReplacementTransform(num_label, num_label2))
+        self.wait(1)

@@ -11,7 +11,7 @@ class CordicMatrices(Scene):
         self.wait(1)
 
         xeq = MathTex('x', '=', r'r \cdot \cos (\theta )').shift(UP*.5).scale(.75)
-        xeq[0].set_color(ORANGE)
+        xeq[0].set_color(BLUE)
         yeq = MathTex('y', '=', r'r \cdot \sin (\theta )').shift(DOWN*.5).scale(.75)
         yeq[0].set_color(YELLOW)
         oeqs = Group(xeq, yeq)        
@@ -20,27 +20,29 @@ class CordicMatrices(Scene):
         self.play(FadeIn(oeqs))
 
         xpeq = MathTex(r"x'", r'=', r'r \cdot \cos (\theta + \alpha )').shift(UP*.5).scale(.75)
-        xpeq[0].set_color(ORANGE)
+        xpeq[0].set_color(BLUE)
         ypeq = MathTex(r"y'", r'=', r'r \cdot \sin (\theta + \alpha )').shift(DOWN*.5).scale(.75)
         ypeq[0].set_color(YELLOW)
         peqs = Group(xpeq, ypeq)
 
         self.play(FadeIn(peqs.shift(DOWN * 2)))
+        self.wait(1)
 
         xnpeq = MathTex(r"x'", r'=', r'r \left( \cos ( \theta ) \cos( \alpha )', " - ", r"\sin ( \theta ) \sin ( \alpha ) \right)").shift(UP*.5).scale(.75)
-        xnpeq[0].set_color(ORANGE)
+        xnpeq[0].set_color(BLUE)
         ynpeq = MathTex(r"y'", r'=', r'r \left( \sin ( \theta ) \cos ( \alpha )', " + ", r"\cos ( \theta ) \sin ( \alpha ) \right)").shift(DOWN*.5).scale(.75)
         ynpeq[0].set_color(YELLOW)
         npeqs = Group(xnpeq, ynpeq)
 
         self.play(oeqs.animate.shift(UP), ReplacementTransform(Group(peqs, identities), npeqs.move_to(DOWN)))
+        self.wait(1)
 
         focusRect1 = SurroundingRectangle(oeqs, color=RED, buff=MED_SMALL_BUFF)
         focusRect2 = SurroundingRectangle(oeqs[0], color=RED, buff=MED_SMALL_BUFF)
         focusRect3 = SurroundingRectangle(oeqs[1], color=RED, buff=MED_SMALL_BUFF)
 
         xnpeqe = MathTex(r"x'", r'=', r'r \cdot \cos ( \theta )', r'\cos ( \alpha )', " - ", r"r \cdot \sin ( \theta )", r"\sin ( \alpha )").shift(UP*.5 + DOWN).scale(.75)
-        xnpeqe[0].set_color(ORANGE)
+        xnpeqe[0].set_color(BLUE)
         ynpeqe = MathTex(r"y'", r'=', r'r \cdot \sin ( \theta )', r'\cos ( \alpha )', " + ", r"r \cdot \cos ( \theta )", r"\sin ( \alpha )").shift(DOWN*.5 + DOWN).scale(.75)
         ynpeqe[0].set_color(YELLOW)
 
@@ -63,13 +65,13 @@ class CordicMatrices(Scene):
         self.wait(1)
 
         xfeq = MathTex(r"x'", r'=', r'x', r'\cos ( {{\alpha}} )', " - ", r"y", r"\sin ( {{\alpha}} )").shift(UP*.5 + DOWN)
-        xfeq[0].set_color(ORANGE)
-        xfeq[2].set_color(ORANGE)
+        xfeq[0].set_color(BLUE)
+        xfeq[2].set_color(BLUE)
         xfeq[7].set_color(YELLOW)
         yfeq = MathTex(r"y'", r'=', r'y', r'\cos ( {{\alpha}} )', " + ", r"x", r"\sin ( {{\alpha}} )").shift(DOWN*.5 + DOWN)
         yfeq[0].set_color(YELLOW)
         yfeq[2].set_color(YELLOW)
-        yfeq[7].set_color(ORANGE)
+        yfeq[7].set_color(BLUE)
         feqs = Group(xfeq, yfeq)
 
         self.play(TransformMatchingTex(Group(oeqs, xnpeqe, ynpeqe), feqs.move_to(ORIGIN)))
@@ -122,12 +124,12 @@ class CordicMatrices(Scene):
         circGroup = Group(rotcirc, circAxes, pt, ptc, npt, ptLine, ptLinec, ptAng, ptAngLabel)
         self.play(FadeOut(circGroup), feqs.animate.move_to(UP * 2))
 
-        ptMat = MobjectMatrix([[MathTex(r"x'").set_color(ORANGE)], 
+        ptMat = MobjectMatrix([[MathTex(r"x'").set_color(BLUE)], 
                               [MathTex(r"y'").set_color(YELLOW)]])
         eqTex = MathTex('=')
         rotMat = MobjectMatrix([[MathTex(r'\cos ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE), MathTex(r'- \sin ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE)],
                                 [MathTex(r'\sin ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE), MathTex(r'\cos ( {{\alpha}} )').set_color_by_tex(r'\alpha', PURPLE)]], h_buff=2, element_alignment_corner=ORIGIN)
-        optMat = MobjectMatrix([[MathTex(r'x').set_color(ORANGE)],
+        optMat = MobjectMatrix([[MathTex(r'x').set_color(BLUE)],
                                 [MathTex(r'y').set_color(YELLOW)]])
         matrixeq = Group(ptMat, eqTex, rotMat, optMat)
         self.play(FadeIn(matrixeq.arrange_submobjects().shift(DOWN)))
