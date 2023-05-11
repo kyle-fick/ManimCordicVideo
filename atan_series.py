@@ -23,3 +23,4 @@ class AtanSeries(Scene):
         self.play(FadeOut(atan_series), FadeOut(angle_series), FadeOut(ratio_test), FadeOut(ratio_rect))
         self.wait(1)
 
+        
