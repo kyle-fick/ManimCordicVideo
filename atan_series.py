@@ -1,6 +1,6 @@
 from manim import *
 
-class AtanSeries(Scene):
+class AtanSeries(MovingCameraScene):
     def construct(self):
         self.camera.background_color="#213d4c"
         
@@ -20,11 +20,44 @@ class AtanSeries(Scene):
         self.play(Create(ratio_rect))
         self.wait(1)
 
-        self.play(FadeOut(atan_series), FadeOut(angle_series), FadeOut(ratio_rect), ratio_test.animate.move_to(ORIGIN))
+        self.play(FadeOut(atan_series), FadeOut(angle_series), FadeOut(ratio_rect, shift=UP), ratio_test.animate.move_to(ORIGIN))
         self.wait(1)
 
         ratio_test_2 = MathTex(r'\lim_{n\to\infty}', r'\left| \tan^{-1} \left( \frac{1}{2^{n+1}} \right) \over \tan^{-1} \left( \frac{1}{2^n} \right) \right|').scale(1.5)
         self.play(Transform(ratio_test, ratio_test_2))
+        self.wait(1)
+
+        lhop_axes = Axes([0, 5], [-2, 2], tips=False)
+        f_x = lambda x: (x-2)**2 - 1
+        g_x = lambda x: -(x-3)
+        func_f = lhop_axes.plot(f_x, color=RED)
+        func_g = lhop_axes.plot(g_x, color=BLUE)
+        self.play(FadeOut(ratio_test), FadeIn(lhop_axes))
+        self.wait(1)
+
+        self.play(Create(func_f), Create(func_g))
+        self.wait(1)
+
+        self.camera.frame.save_state()
+        self.play(self.camera.frame.animate.move_to(lhop_axes.c2p(3, 0)).scale(0.1), 
+                  func_f.animate.set(stroke_width=1),
+                  func_g.animate.set(stroke_width=1))
+        self.wait(1)
+
+        dx = 0.1
+        dy_f = f_x(3 + dx)
+        dy_g = g_x(3 + dx)
+        
+        dx_line = DashedLine(lhop_axes.c2p(3, 0), lhop_axes.c2p(3 + dx, 0), stroke_width=1, color=ORANGE, dash_length=0.02)
+        dy_f_line = DashedLine(start=lhop_axes.c2p(3 + dx, 0), end=lhop_axes.c2p(3 + dx, dy_f), stroke_width=1, color=RED, dash_length=0.02)
+        dy_g_line = DashedLine(start=lhop_axes.c2p(3 + dx, 0), end=lhop_axes.c2p(3 + dx, dy_g), stroke_width=1, color=BLUE, dash_length=0.02)
+        self.play(Create(dx_line), Create(dy_f_line), Create(dy_g_line))
+        self.wait(1)
+
+        self.play(Restore(self.camera.frame),
+                  func_f.animate.set(stroke_width=4),
+                  func_g.animate.set(stroke_width=4))
+        self.play(FadeOut(lhop_axes, func_f, func_g), FadeIn(ratio_test))
         self.wait(1)
 
         ratio_test_3 = MathTex(r'\lim_{n\to\infty}', r'\left| \frac{2^{n+1} \ln(2)}{1 + 4^{n+1}} \over \frac{2^n \ln(2)}{1 + 4^n} \right|').scale(1.5)
@@ -35,7 +68,7 @@ class AtanSeries(Scene):
         self.play(Transform(ratio_test, ratio_test_4))
         self.wait(1)
 
-        ratio_test_5 = MathTex(r'\lim_{n\to\infty}', r'\frac{1}{2} \cdot \frac{4^x + 1}{4^x + \frac{1}{4}}').scale(1.5)
+        ratio_test_5 = MathTex(r'\lim_{n\to\infty}', r'\frac{1}{2} \cdot \frac{4^n + 1}{4^n + \frac{1}{4}}').scale(1.5)
         self.play(Transform(ratio_test, ratio_test_5))
         self.wait(1)
 
