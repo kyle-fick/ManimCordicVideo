@@ -54,10 +54,27 @@ class AtanSeries(MovingCameraScene):
         self.play(Create(dx_line), Create(dy_f_line), Create(dy_g_line))
         self.wait(1)
 
+        dx_tex = MathTex(r'dx', color=ORANGE).next_to(dx_line, DOWN, buff=0.01).scale(0.25)
+        dy_f_tex = MathTex(r'dy', color=RED).next_to(dy_f_line, RIGHT).shift(LEFT * 0.35).scale(0.25)
+        dy_g_tex = MathTex(r'dy', color=BLUE).next_to(dy_g_line, RIGHT).shift(LEFT * 0.35).scale(0.25)
+        self.play(Write(dy_f_tex), Write(dy_g_tex), Write(dx_tex))
+        self.wait(1)
+
+        # not working
+        dy_dx_tex = MathTex(r'{ {{{dy}}} \over {{{dx}}} } \over { {{{dy}}} \over {{{dx}}} }').scale(0.25).move_to(dx_tex).shift(LEFT * 0.5 + DOWN * 0.1)
+        # self.add(index_labels(dy_dx_tex))
+        # dy_dx_tex[0].set_color(RED)
+        # dy_dx_tex[2].set_color(ORANGE)
+        # dy_dx_tex[4].set_color(BLUE)
+        # dy_dx_tex[6].set_color(ORANGE)
+
+        self.play(Write(dy_dx_tex))
+        self.wait(1)
+
         self.play(Restore(self.camera.frame),
                   func_f.animate.set(stroke_width=4),
                   func_g.animate.set(stroke_width=4))
-        self.play(FadeOut(lhop_axes, func_f, func_g), FadeIn(ratio_test))
+        self.play(FadeOut(lhop_axes, func_f, func_g, dx_line, dy_f_line, dy_g_line, dx_tex, dy_f_tex, dy_g_tex, dy_dx_tex), FadeIn(ratio_test))
         self.wait(1)
 
         ratio_test_3 = MathTex(r'\lim_{n\to\infty}', r'\left| \frac{2^{n+1} \ln(2)}{1 + 4^{n+1}} \over \frac{2^n \ln(2)}{1 + 4^n} \right|').scale(1.5)
