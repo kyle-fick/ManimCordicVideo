@@ -1,6 +1,6 @@
 from manim import *
 
-class AngleAddProof(Scene):
+class TrigProof(Scene):
     def construct(self):
         self.camera.background_color="#213d4c"
 
