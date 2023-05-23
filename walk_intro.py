@@ -23,7 +23,7 @@ class WalkIntro(ZoomedScene):
         self.play(FadeIn(br))
         self.wait(1)
 
-        q_tex = Tex('?').next_to(br, DOWN)
+        q_tex = Tex(str(dist_to_end)).next_to(br, DOWN)
         self.play(Write(q_tex))
         self.wait(1)
 

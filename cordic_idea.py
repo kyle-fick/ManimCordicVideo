@@ -33,7 +33,7 @@ class CordicIdea(MovingCameraScene):
         self.play(FadeIn(angle_label))
         self.wait(1)
 
-        def rotateVect(ang):
+        def rotate_vect(ang):
             return angle.animate.set_value(angle.get_value() + ang)
 
         rotAngles = []
@@ -41,7 +41,7 @@ class CordicIdea(MovingCameraScene):
             rotAngles.append(PI/4 * (np.power(.5, i)))
 
         for i in rotAngles:
-            self.play(rotateVect(i))
+            self.play(rotate_vect(i))
             self.wait(0.2)
 
         angle_label.remove_updater(angle_lambda)
@@ -69,7 +69,7 @@ class CordicIdea(MovingCameraScene):
         vector.add_updater(arrow_updater)
         self.add(new_angle_mark)
 
-        self.play(rotateVect(-PI))
+        self.play(rotate_vect(-PI))
         self.wait(1)
 
         circle_shade1 = Arc(rotcirc.radius, -PI/2, PI, fill_color=BLUE_C, fill_opacity=.4)
@@ -92,7 +92,18 @@ class CordicIdea(MovingCameraScene):
         self.play(FadeOut(circle_shade1), FadeOut(circle_shade2), FadeOut(q2_vec), FadeOut(q3_vec))
         self.wait(1)
 
-        self.play(rotateVect(PI/2))
+        self.play(rotate_vect(PI/2))
+        self.wait(1)
+
+        for i in range(10):
+            self.play(rotate_vect(np.arctan(1 / 2 ** i)))
+            self.wait(0.2)
+
+        self.play(FadeIn(circle_shade1, circle_shade2))
+        self.wait(1)
+        self.play(FadeOut(circle_shade1, circle_shade2))
+        self.wait(1)
+
         new_angle_mark.remove_updater(new_angle_updater)
         self.play(FadeOut(new_angle_mark))
         self.wait(1)
@@ -108,7 +119,7 @@ class CordicIdea(MovingCameraScene):
         self.wait(1)
         for i in range(len(rotAngles)):
             a = 1 if angle.get_value() < desired_angle else -1
-            self.play(rotateVect(rotAngles[i] * a))
+            self.play(rotate_vect(rotAngles[i] * a))
             self.wait(0.2)
         self.wait(1)
 
@@ -139,6 +150,6 @@ class CordicIdea(MovingCameraScene):
         self.wait(1)
         for i in range(len(rotAngles)):
             a = 1 if angle.get_value() < desired_angle else -1
-            self.play(rotateVect(rotAngles[i] * a))
+            self.play(rotate_vect(rotAngles[i] * a))
             self.wait(0.2)
         self.wait(1)
