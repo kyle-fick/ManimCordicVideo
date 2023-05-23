@@ -112,3 +112,14 @@ class AtanSeries(MovingCameraScene):
         ratio_test_final = MathTex(r'\frac{1}{2}', r'<', r'1').scale(1.5)
         self.play(Transform(ratio_test, ratio_test_final))
         self.wait(1)
+
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.wait(1)
+        
+        tan_ang = MathTex(r'\tan', r'\left(', r'\alpha_{n}', r'\right)', r'=', r'2^{-n}').set_color_by_tex(r'\alpha_{n}', PURPLE)
+        self.play(FadeIn(tan_ang))
+        self.wait(1)
+
+        tan_term = MathTex(r'\alpha_{n}', r'=', r'\tan', r'^{-1}', r'\left(', r'2^{-n}', r'\right)').set_color_by_tex(r'\alpha_{n}', PURPLE)
+        self.play(TransformMatchingTex(tan_ang, tan_term))
+        self.wait(1)
